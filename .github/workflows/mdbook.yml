@@ -26,6 +26,7 @@ concurrency:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     container:
       image: $BUILD_IMG
     steps:
