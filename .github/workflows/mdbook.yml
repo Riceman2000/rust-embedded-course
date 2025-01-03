@@ -37,7 +37,7 @@ jobs:
         run: cargo make book-build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mdbook-output
           path: './public'
@@ -57,7 +57,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: mdbook-output
 
