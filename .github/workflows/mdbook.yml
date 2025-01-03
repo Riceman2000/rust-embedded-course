@@ -30,8 +30,11 @@ jobs:
     container:
       image: ghcr.io/riceman2000/rust-embedded-course-build:latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: mdbook
-        run: cargo make
+        run: cargo make book-build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
