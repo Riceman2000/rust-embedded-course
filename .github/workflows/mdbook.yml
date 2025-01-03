@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull Docker image from ghcr.io
-        run: docker pull ${{ BUILD_IMG }}
+        run: docker pull $BUILD_IMG
 
       - name: mdbook
         run: docker run $BUILD_IMG "cargo make"
