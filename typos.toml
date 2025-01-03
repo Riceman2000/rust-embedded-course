@@ -1,0 +1,10 @@
+# Config file for spell check reference: 
+# https://github.com/crate-ci/typos/blob/master/docs/reference.md
+
+# Ignore tex formatting files for spell checking
+files.extend-exclude = ["*.tex", "*.min.js"]
+
+# Regexes to ignore
+default.extend-ignore-re = [
+    "\b[A-Z]+\b",	# All caps words
+]
