@@ -1,0 +1,32 @@
+[default.probe]
+protocol = "Swd"
+speed = 20000
+# If you only have one probe cargo embed will pick automatically
+# Otherwise: add your probe's VID/PID/serial to filter
+
+## rust-dap
+# usb_vid = "6666"
+# usb_pid = "4444"
+# serial = "test"
+
+[default.flashing]
+enabled = true
+
+[default.reset]
+enabled = true
+halt_afterwards = true
+
+[default.general]
+chip = "RP2040"
+log_level = "WARN"
+# RP2040 does not support connect_under_reset
+connect_under_reset = false
+
+[default.rtt]
+enabled = false
+up_mode = "NoBlockSkip"
+timeout = 3000
+
+[default.gdb]
+enabled = true
+gdb_connection_string = "127.0.0.1:2345"
