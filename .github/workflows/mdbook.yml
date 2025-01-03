@@ -1,10 +1,6 @@
 name: mdbook compilation
 
-env:
-  BUILD_IMG: ghcr.io/riceman2000/rust-embedded-course-build:latest
-
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
 
@@ -25,6 +21,26 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  check:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/riceman2000/rust-embedded-course-build:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Spell
+        run: cargo make spell
+
+      - name: Format
+        run: cargo make format
+
+      - name: Clippy
+        run: cargo make clippy
+
   deploy:
     environment:
       name: github-pages

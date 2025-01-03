@@ -3,7 +3,7 @@ authors = [""]
 language = "en"
 multilingual = false
 src = "src"
-title = "RP2040 Embedded"
+title = "Rust Embedded Course"
 
 [preprocessor]
 
