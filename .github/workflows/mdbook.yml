@@ -1,4 +1,4 @@
-name: MdBook compilation
+name: mdbook compilation
 
 env:
   BUILD_IMG: ghcr.io/riceman2000/rust-embedded-course-build:latest
@@ -25,7 +25,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
