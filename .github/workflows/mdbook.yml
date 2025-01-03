@@ -35,14 +35,14 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull Docker image from ghcr.io
         run: docker pull ${{ BUILD_IMG }}
 
-    - name: mdbook
-      run: docker run $BUILD_IMG "cargo make"
+      - name: mdbook
+        run: docker run $BUILD_IMG "cargo make"
 
   deploy:
     environment:
