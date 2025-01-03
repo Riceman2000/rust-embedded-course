@@ -1,10 +1,10 @@
 name: MdBook compilation
 
 env:
-  PROJECT: "rust-embedded-course"
-  NAMESPACE: "riceman2000"
-  DOCKER_REGISTRY: "ghcr.io/${NAMESPACE}"
-  BUILD_IMG: "${DOCKER_REGISTRY}/${PROJECT}-build:latest"
+  PROJECT: rust-embedded-course
+  NAMESPACE: riceman2000
+  DOCKER_REGISTRY: ghcr.io/${NAMESPACE}
+  BUILD_IMG: ${DOCKER_REGISTRY}/${PROJECT}-build:latest
 
 on:
   # Runs on pushes targeting the default branch
