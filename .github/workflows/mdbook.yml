@@ -30,7 +30,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: docker-pull
-      run: docker pull $BUILD_IMG
+      run: |
+        - echo $GITHUB_TOKEN | docker login ghcr.io -u Riceman2000 --password-stdin
+        - docker pull $BUILD_IMG
     - name: mdbook
       run: docker run $BUILD_IMG "cargo make"
   deploy:
