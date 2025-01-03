@@ -27,7 +27,7 @@ concurrency:
 jobs:
   build:
     container:
-      image: ${{ env.BUILD_IMG }}
+      image: $BUILD_IMG
     steps:
       - name: mdbook
         run: cargo make
