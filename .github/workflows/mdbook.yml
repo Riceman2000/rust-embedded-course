@@ -1,0 +1,21 @@
+name: MdBook compilation
+
+env:
+  PROJECT = "rust-embedded-course"
+  NAMESPACE = "riceman2000"
+  DOCKER_REGISTRY = "ghcr.io/${NAMESPACE}"
+  BUILD_IMG = "${DOCKER_REGISTRY}/${PROJECT}-build:latest"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: $BUILD_IMG
+    steps:
+    - uses: actions/checkout@v4
+    - name: mdbook
+      run: cargo make book-build

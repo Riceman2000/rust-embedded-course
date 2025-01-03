@@ -1,0 +1,177 @@
+[config]
+# Skip all premade tasks that ship with cargo-make
+skip_core_tasks = true
+
+[env]
+PROJECT = "rust-embedded-course"
+NAMESPACE = "riceman2000"
+DOCKER_REGISTRY = "ghcr.io/${NAMESPACE}"
+BUILD_IMG = "${DOCKER_REGISTRY}/${PROJECT}-build:latest"
+DOCKER_DIR = "./"
+RUSTDOCFLAGS="--deny warnings"
+
+[tasks.default]
+description = "Runs when no task is given"
+alias = "all"
+
+[tasks.all]
+description = "Run all tasks"
+category = "Tools"
+dependencies = [
+    "format",
+    "spell-check",
+    "clippy",
+    "book-build",
+]
+
+[tasks.spell]
+alias = "spell-check"
+[tasks.spell-check]
+description = "Check for spelling errors"
+category = "Check"
+install_crate = { crate_name = "typos-cli", force = false }
+command = "typos"
+args = ["--sort"]
+
+[tasks.book-build]
+description = "Build book for publishing"
+category = "Doc"
+install_crate = { crate_name = "mdbook", force = false }
+script_runner = "bash"
+script = '''
+pushd course
+mdbook build -d ../public
+popd
+'''
+
+[tasks.book-serve]
+description = "Start mdbook webserver for editing"
+category = "Doc"
+install_crate = { crate_name = "mdbook", force = false }
+script_runner = "bash"
+script = '''
+pushd course
+mdbook serve --open
+popd
+'''
+
+[tasks.format-check]
+description = "Check if code format meets spec"
+category = "Check"
+install_crate = { rustup_component_name = "rustfmt" }
+script_runner = "bash"
+script = '''
+for dir in ./*/; do
+  pushd $dir > /dev/null
+  if [[ -f "Cargo.toml" ]]; then
+    echo Checking formatting: ${PWD##*/}
+    cargo fmt --check
+  else
+    echo Skipping, no Cargo.toml found: ${PWD##*/}
+  fi
+  popd > /dev/null
+done
+'''
+
+[tasks.fmt]
+alias = "format"
+[tasks.format]
+description = "Format all Rust code files"
+category = "Check"
+install_crate = { rustup_component_name = "rustfmt" }
+script_runner = "bash"
+script = '''
+for dir in ./*/; do
+  pushd $dir > /dev/null
+  if [[ -f "Cargo.toml" ]]; then
+    echo Formatting: ${PWD##*/}
+    cargo fmt
+  else
+    echo Skipping, no Cargo.toml found: ${PWD##*/}
+  fi
+  popd > /dev/null
+done
+'''
+
+[tasks.clippy]
+description = "Check for well known antipatterns and check without compiling"
+category = "Check"
+install_crate = { rustup_component_name = "clippy" }
+script_runner = "bash"
+script = '''
+for dir in ./*/; do
+  pushd $dir > /dev/null
+  if [[ -f "Cargo.toml" ]]; then
+    echo Linting: ${PWD##*/}
+    cargo clippy --color always -- -W clippy::pedantic -D warnings
+  else
+    echo Skipping, no Cargo.toml found: ${PWD##*/}
+  fi
+  popd > /dev/null
+done
+'''
+
+[tasks.clean]
+description = "Clean build directories"
+category = "Tools"
+script_runner = "bash"
+script = '''
+for dir in ./*/; do
+  pushd $dir > /dev/null
+  if [[ -f "Cargo.toml" ]]; then
+    echo Cleaning: ${PWD##*/}
+    cargo clean
+  else
+    echo Skipping, no Cargo.toml found: ${PWD##*/}
+  fi
+  popd > /dev/null
+done
+'''
+
+[tasks.docker_build]
+description = "Build docker image for CI"
+category = "Docker"
+command = "docker"
+args = ["build", "-t", "${BUILD_IMG}", "${DOCKER_DIR}"]
+
+[tasks.docker_push]
+description = "Push docker image for CI"
+category = "Docker"
+command = "docker"
+args = ["push", "${BUILD_IMG}"]
+
+[tasks.docker_shell]
+description = "Enter docker shell"
+category = "Docker"
+dependencies = ["docker_build"]
+command = "docker"
+args = [
+    "run", 
+    "-it", 
+    "--rm", 
+    "--name=${PROJECT}_shell", 
+    "--mount",
+    "type=bind,source=${PWD},target=/${PROJECT}", 
+    "--workdir=/${PROJECT}",
+    "${BUILD_IMG}", 
+    "bash"
+]
+
+[tasks.docker_check]
+description = "Run all checks in docker"
+category = "Docker"
+dependencies = ["docker_build"]
+command = "docker"
+args = [
+    "run", 
+    "-t", 
+    "--rm", 
+    "--name=${PROJECT}_shell", 
+    "--mount",
+    "type=bind,source=${PWD},target=/${PROJECT}", 
+    "--workdir=/${PROJECT}",
+    "${BUILD_IMG}", 
+    "bash",
+    "-c",
+    "cargo make --profile=release && cargo make --profile=release rpm"
+]
