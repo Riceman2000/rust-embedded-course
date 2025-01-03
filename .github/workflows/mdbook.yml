@@ -26,23 +26,18 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    container:
+      image: ${{ env.BUILD_IMG }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Pull Docker image from ghcr.io
-        run: docker pull $BUILD_IMG
-
       - name: mdbook
-        run: docker run $BUILD_IMG "cargo make"
+        run: cargo make
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: mdbook-output
+          path: './public'
+
 
   deploy:
     environment:
@@ -55,6 +50,11 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: mdbook-output
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
