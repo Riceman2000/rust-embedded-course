@@ -1,7 +1,7 @@
 name: mdbook compilation
 
 env:
-  BUILD_IMG: ghcr.io/riceman2000/rust-embedded-course-build:latest
+  BUILD_IMG: ghcr.io/${{ github.actor }}/rust-embedded-course-build:latest
 
 on:
   # Runs on pushes targeting the default branch
@@ -28,7 +28,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ${{ env.BUILD_IMG }}
+      image: ghcr.io/${{ github.actor }}/rust-embedded-course-build:latest
     steps:
       - name: mdbook
         run: cargo make
