@@ -25,16 +25,26 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: docker-pull
-      run: |
-        echo $GITHUB_TOKEN | docker login ghcr.io -u Riceman2000 --password-stdin
-        docker pull $BUILD_IMG
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull Docker image from ghcr.io
+        run: docker pull ${{ BUILD_IMG }}
+
     - name: mdbook
       run: docker run $BUILD_IMG "cargo make"
+
   deploy:
     environment:
       name: github-pages
@@ -43,12 +53,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './public'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
