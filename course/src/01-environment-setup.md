@@ -1,7 +1,7 @@
 # Environment setup
 
 ## Supply List 
-In follow along with this project you will need a few hardware tools. These tools are both useful for this short experiment but also useful for hardware debugging, hobbyist/prototyping projects, and reverse engineering. I have split this list into two categories: the essential items are the bare minimum to get anything running using this repository and the nonessentials are nice-to-haves that give you the leeway to continue tinkering on your own after this course is complete.
+I have split this list into two categories: the essential items are the bare minimum to get anything running using this repository and the nonessentials are nice-to-haves that give you the leeway to continue tinkering on your own after this course is complete.
 
 ### Essential Supplies
 - Raspberry Pi Pico development board with headers - [Mouser # 358-SC0917](https://www.mouser.com/ProductDetail/358-SC0917)
@@ -13,14 +13,15 @@ In follow along with this project you will need a few hardware tools. These tool
 - Breadboard power supply - [Mouser # 474-PRT-21297](https://www.mouser.com/ProductDetail/474-PRT-21297)
   - Barrel jack adapter for power - [Mouser # 474-TOL-15313](https://www.mouser.com/ProductDetail/474-TOL-15313)
 - Breadboards - [Mouser # 589-TW-E40-1020](https://www.mouser.com/ProductDetail/589-TW-E40-1020)
-  - Note the variation in quality for breadboards is high, these will likely be fine but if you want the best of the best look [here](https://www.assemblyspecialist.com/WebStore/breadboards.html), they are the supplier for 3M which are widely accepted as being the best breadboards around but very expensive.
+  - Note the variation in quality for breadboards is high, these will likely be fine but if you want the best of the best look [here](https://www.assemblyspecialist.com/WebStore/breadboards.html), they are the supplier for 3M which are widely accepted as being the best breadboards around, but very expensive.
 - Breadboard jumper wire kit - [Mouser # 474-PRT-00124](https://www.mouser.com/ProductDetail/474-PRT-00124)
 
 ## Development Environment
 ### OS 
- - Most modern Linux distros will be fine for this, I used a freshly downloaded Debian 12 VM
- - WSL has a hard time interfacing with hardware devices; a VM is better for this project
- - MacOS has also allegedly worked for others and Windows is not easy to get working
+ - Most modern Linux distros will be fine for this. I used a freshly downloaded Debian 12 VM.
+ - WSL has a hard time interfacing with hardware devices; a VM is better for this project.
+ - MacOS generally mirrors Linux using the HomeBrew package manager.
+ - Windows is untested, attempt at your peril.
 ### Rust
 - If you don't have Rust installed already you will need to install `rustup`, the Rust toolchain manager.
 - Follow the install directions [here](https://rustup.rs/)
@@ -30,7 +31,7 @@ In follow along with this project you will need a few hardware tools. These tool
 - Install probe-rs following the websites directions:
   - [Main site](https://probe.rs/)
   - [Installation page](https://probe.rs/docs/getting-started/installation/)
-  - :warning: If you are on Linux ensure you add a udev rule to allow non-root users to access debug probes, directions [here](https://probe.rs/docs/getting-started/probe-setup/#linux%3A-udev-rules)
+  - 🚨 If you are on Linux ensure you add a udev rule to allow non-root users to access debug probes, directions [here](https://probe.rs/docs/getting-started/probe-setup/#linux%3A-udev-rules)
 ### IDE
 - See the official [Rust tooling](https://www.rust-lang.org/tools) page
 - For people new to Rust or if you have no real preference, I would recommend VSCode or Neovim with the rust-analyzer LSP.
@@ -52,7 +53,7 @@ Now that we know the Pi Pico is running, it is time to push some example code th
   - `rustup target add thumbv6m-none-eabi`
   - `cargo install flip-link`
   - `sudo apt install gcc`
-  - :exclamation: Ensure you have configured the UDEV rules mentioned [here](https://probe.rs/docs/getting-started/probe-setup/#linux%3A-udev-rules)
+  - 🚨 Ensure you have configured the UDEV rules mentioned [here](https://probe.rs/docs/getting-started/probe-setup/#linux%3A-udev-rules)
 - Run `cargo run`
 - You should see a successful code flash and the print statements from the debug interface being printed to your console
 
