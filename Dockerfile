@@ -12,6 +12,7 @@ RUN rustup update && \
 
 RUN cargo install \
 	cargo-make \
+	typos-cli \
 	mdbook \
 	mdbook-mermaid
 

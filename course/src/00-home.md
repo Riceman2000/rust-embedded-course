@@ -1,10 +1,10 @@
 # Home
 
-This course is intended to be a springboard to expand your knowledge of embedded systems. If you are just starting, the first chapter will walk you through your environment setup and provide a supply list with links to an online supplier. 
+This course is intended to be a starting off point into embedded systems. If you are just starting, the first chapter will walk you through your environment setup and provide a supply list with links to an online supplier. 
 
 
 ## A few common questions:
-### Who is this for?
+### Is this for me?
   - This course is for people that already have experience programming that want an overview of embedded development.
   - This course is not for people trying to explicitly learn Rust, it is an embedded course that just so happens to use Rust.
 
