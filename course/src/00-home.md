@@ -1,6 +1,6 @@
 # Home
 
-This course is intended to be a starting off point into embedded systems. If you are just starting, the first chapter will walk you through your environment setup and provide a supply list with links to an online supplier. 
+This course is intended to be a starting off point into embedded systems. If you are just starting, the first chapter will walk you through your environment setup and provide a supply list with links to an online supplier. You are reading a book hosted on GitHub Pages, the source code and exaples are hosted [here](https://github.com/Riceman2000/rust-embedded-course/).
 
 
 ## A few common questions:
